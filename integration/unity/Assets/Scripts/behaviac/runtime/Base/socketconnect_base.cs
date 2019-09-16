@@ -190,14 +190,23 @@ namespace behaviac
             return packetSize;
         }
 
-        public void SetData(string text)
+        public void SetData(string text, bool isAsc = false)
         {
-            byte[] ascII = System.Text.Encoding.ASCII.GetBytes(text);
+            byte[] bytes = null;
 
-            Debug.Check(ascII.Length < SocketConnection.kMaxPacketDataSize);
-            this.data = new byte[ascII.Length];
+            if (isAsc)
+            {
+                bytes = System.Text.Encoding.ASCII.GetBytes(text);
+            }
+            else
+            {
+                System.Text.Encoding.UTF8.GetBytes(text);
+            }
 
-            System.Buffer.BlockCopy(ascII, 0, this.data, 0, ascII.Length);
+            Debug.Check(bytes.Length < SocketConnection.kMaxPacketDataSize);
+            this.data = new byte[bytes.Length];
+
+            System.Buffer.BlockCopy(bytes, 0, this.data, 0, bytes.Length);
         }
 
         public byte[] GetData()
@@ -718,7 +727,7 @@ namespace behaviac
                 }
                 else
                 {
-                    using(item as IDisposable)
+                    using (item as IDisposable)
                     {
                         count--;
                     }
@@ -737,7 +746,7 @@ namespace behaviac
 
                 while (queue.Count > 0)
                 {
-                    using(queue.Dequeue() as IDisposable)
+                    using (queue.Dequeue() as IDisposable)
                     {
                     }
                 }
@@ -1048,7 +1057,7 @@ namespace behaviac
 
                     lock (this)
                     {
-                        ms_texts += GetStringFromBuffer(buffer, 0, reads, true);
+                        ms_texts += GetStringFromBuffer(buffer, 0, reads, false);
                     }
 
                     if (!string.IsNullOrEmpty(msgCheck) && ms_texts.IndexOf(msgCheck) != -1)

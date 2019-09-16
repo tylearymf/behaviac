@@ -314,11 +314,20 @@ namespace Behaviac.Design.Network
             }
         }
 
-        public void SendText(string msg)
+        public void SendText(string msg, bool isAsc = false)
         {
             if (m_clientSocket != null && m_clientSocket.Connected)
             {
-                byte[] bytes = System.Text.Encoding.ASCII.GetBytes(msg);
+                byte[] bytes = null;
+                if (isAsc)
+                {
+                    bytes = System.Text.Encoding.ASCII.GetBytes(msg);
+                }
+                else
+                {
+                    bytes = System.Text.Encoding.UTF8.GetBytes(msg);
+                }
+
                 m_clientSocket.Send(bytes);
             }
         }
@@ -380,23 +389,23 @@ namespace Behaviac.Design.Network
                     switch (commandId)
                     {
                         case SocketPacket.CommandID.INITIAL_SETTINGS:
-                        {
-                            int platform = (int)msgData[1];
-                            int processId = (int)GetInt(msgData, 2);
-                            break;
-                        }
+                            {
+                                int platform = (int)msgData[1];
+                                int processId = (int)GetInt(msgData, 2);
+                                break;
+                            }
 
                         case SocketPacket.CommandID.TEXT:
-                        {
-                            handleText(msgData);
-                            break;
-                        }
+                            {
+                                handleText(msgData);
+                                break;
+                            }
 
                         default:
-                        {
-                            System.Diagnostics.Debug.Fail("Unknown command ID: " + commandId);
-                            break;
-                        }
+                            {
+                                System.Diagnostics.Debug.Fail("Unknown command ID: " + commandId);
+                                break;
+                            }
                     }
                 }
 
@@ -412,7 +421,7 @@ namespace Behaviac.Design.Network
 
         private void handleText(byte[] msgData)
         {
-            string text = GetStringFromBuffer(msgData, 1, kMaxTextLength, true);
+            string text = GetStringFromBuffer(msgData, 1, kMaxTextLength, false);
             MessageQueue.PostMessageBuffer(text);
         }
 
