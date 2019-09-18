@@ -248,14 +248,14 @@ namespace Behaviac.Design.Exporters
 
         protected static void ExportBeginComment(StringWriter file, string indent, string name)
         {
-            //file.WriteLine("{0}{1} {2}", indent, item_begin, name);
-            file.WriteLine("{0} {1}", item_begin, name);
+            file.WriteLine("{0}{1} {2}", indent, item_begin, name);
+            //file.WriteLine("{0} {1}", item_begin, name);
         }
 
         protected static void ExportEndComment(StringWriter file, string indent)
         {
-            //file.WriteLine("{0}{1}", indent, item_end);
-            file.WriteLine("{0}", item_end);
+            file.WriteLine("{0}{1}", indent, item_end);
+            //file.WriteLine("{0}", item_end);
         }
 
         private static bool StartsWith(string token, string line)
@@ -283,6 +283,21 @@ namespace Behaviac.Design.Exporters
             name = "";
 
             return false;
+        }
+
+        static public string GetIndent(List<string> codes)
+        {
+            if (codes != null && codes.Count > 0)
+            {
+                var line = codes[0];
+                string lineNoEmpty = line.TrimStart(spaces);
+                if (lineNoEmpty.StartsWith(item_begin))
+                {
+                    return line.Substring(0, line.IndexOf(lineNoEmpty));
+                }
+            }
+
+            return string.Empty;
         }
 
         private static string ReadMethodOldName(string line)
@@ -347,14 +362,18 @@ namespace Behaviac.Design.Exporters
                 this.codes.Add(code);
             }
 
-            public static void Write(StringWriter file, List<string> lines, string methodName = null)
+            public static void Write(StringWriter file, List<string> lines, string methodName = null, string indent = null)
             {
                 foreach (string s in lines)
                 {
                     string item_name;
                     if (!string.IsNullOrEmpty(methodName) && StartsWith(item_begin, s, out item_name))
                     {
-                        file.WriteLine("{0} {1}", item_begin, methodName);
+                        file.WriteLine("{0}{1} {2}", indent, item_begin, methodName);
+                    }
+                    else if (!string.IsNullOrEmpty(methodName) && StartsWith(item_end, s))
+                    {
+                        file.WriteLine("{0}{1} {2}", indent, item_end, methodName);
                     }
                     else
                     {
@@ -497,7 +516,7 @@ namespace Behaviac.Design.Exporters
         {
             List<MethodContent> methods = new List<MethodContent>();
 
-            using(StreamReader file = new StreamReader(filename))
+            using (StreamReader file = new StreamReader(filename))
             {
                 while (true)
                 {
@@ -554,7 +573,7 @@ namespace Behaviac.Design.Exporters
                             old_method = method;
                         }
 
-                        MethodContent.Write(file, old_method.codes, method.name);
+                        MethodContent.Write(file, old_method.codes, method.name, Exporter.GetIndent(method.codes));
                     }
 
                     UpdateFile(file, out_filename);

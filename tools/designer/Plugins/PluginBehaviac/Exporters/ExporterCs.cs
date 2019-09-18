@@ -204,7 +204,7 @@ namespace PluginBehaviac.Exporters
             filename = filename.Replace('\\', '/');
 
             // write comments
-            file.WriteLine("\t// Source file: {0}\r\n", filename);
+            file.WriteLine("\u0020\u0020\u0020\u0020// Source file: {0}\r\n", filename);
 
             string btClassName = string.Format("bt_{0}", getValidFilename(filename));
             string agentType = behavior.AgentType.Name;
@@ -219,45 +219,45 @@ namespace PluginBehaviac.Exporters
             }
 
             // create the bt class
-            file.WriteLine("\tpublic static class {0}\r\n\t{{", btClassName);
+            file.WriteLine("\u0020\u0020\u0020\u0020public static class {0}\r\n\u0020\u0020\u0020\u0020{{", btClassName);
 
             // export the build function
-            file.WriteLine("\t\tpublic static bool build_behavior_tree(BehaviorTree bt)\r\n\t\t{");
-            file.WriteLine("\t\t\tbt.SetClassNameString(\"BehaviorTree\");");
-            file.WriteLine("\t\t\tbt.SetId(-1);");
-            file.WriteLine("\t\t\tbt.SetName(\"{0}\");", filename);
-            file.WriteLine("\t\t\tbt.IsFSM = {0};", ((Node)behavior).IsFSM ? "true" : "false");
+            file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020public static bool build_behavior_tree(BehaviorTree bt)\r\n\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020{");
+            file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020bt.SetClassNameString(\"BehaviorTree\");");
+            file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020bt.SetId(-1);");
+            file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020bt.SetName(\"{0}\");", filename);
+            file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020bt.IsFSM = {0};", ((Node)behavior).IsFSM ? "true" : "false");
             file.WriteLine("#if !BEHAVIAC_RELEASE");
-            file.WriteLine("\t\t\tbt.SetAgentType(\"{0}\");", agentType.Replace("::", "."));
+            file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020bt.SetAgentType(\"{0}\");", agentType.Replace("::", "."));
             file.WriteLine("#endif");
 
             if (!string.IsNullOrEmpty(((Behavior)behavior).Domains))
             {
-                file.WriteLine("\t\t\tbt.SetDomains(\"{0}\");", ((Behavior)behavior).Domains);
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020bt.SetDomains(\"{0}\");", ((Behavior)behavior).Domains);
             }
 
             if (((Behavior)behavior).DescriptorRefs.Count > 0)
             {
-                file.WriteLine("\t\t\tbt.SetDescriptors(\"{0}\");", DesignerPropertyUtility.RetrieveExportValue(((Behavior)behavior).DescriptorRefs));
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020bt.SetDescriptors(\"{0}\");", DesignerPropertyUtility.RetrieveExportValue(((Behavior)behavior).DescriptorRefs));
             }
 
-            ExportPars(file, agentType, "bt", (Node)behavior, "\t\t");
+            ExportPars(file, agentType, "bt", (Node)behavior, "\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020");
 
             // export its attachments
-            ExportAttachment(file, btClassName, agentType, "bt", (Node)behavior, "\t\t\t");
+            ExportAttachment(file, btClassName, agentType, "bt", (Node)behavior, "\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020");
 
-            file.WriteLine("\t\t\t// children");
+            file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020// children");
 
             // export its children
             if (((Node)behavior).IsFSM)
             {
-                file.WriteLine("\t\t\t{");
-                file.WriteLine("\t\t\t\tFSM fsm = new FSM();");
-                file.WriteLine("\t\t\t\tfsm.SetClassNameString(\"FSM\");");
-                file.WriteLine("\t\t\t\tfsm.SetId(-1);");
-                file.WriteLine("\t\t\t\tfsm.InitialId = {0};", behavior.InitialStateId);
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020{");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020FSM fsm = new FSM();");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020fsm.SetClassNameString(\"FSM\");");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020fsm.SetId(-1);");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020fsm.InitialId = {0};", behavior.InitialStateId);
                 file.WriteLine("#if !BEHAVIAC_RELEASE");
-                file.WriteLine("\t\t\t\tfsm.SetAgentType(\"{0}\");", agentType.Replace("::", "."));
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020fsm.SetAgentType(\"{0}\");", agentType.Replace("::", "."));
                 file.WriteLine("#endif");
 
                 foreach (Node child in ((Node)behavior).FSMNodes)
@@ -265,8 +265,8 @@ namespace PluginBehaviac.Exporters
                     ExportNode(file, btClassName, agentType, "fsm", child, 4);
                 }
 
-                file.WriteLine("\t\t\t\tbt.AddChild(fsm);");
-                file.WriteLine("\t\t\t}");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020bt.AddChild(fsm);");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020}");
             }
             else
             {
@@ -276,13 +276,13 @@ namespace PluginBehaviac.Exporters
                 }
             }
 
-            file.WriteLine("\t\t\treturn true;");
+            file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020return true;");
 
             // close the build function
-            file.WriteLine("\t\t}");
+            file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020}");
 
             // close class
-            file.WriteLine("\t}\r\n");
+            file.WriteLine("\u0020\u0020\u0020\u0020}\r\n");
 
             behavior.PostExport();
         }
@@ -305,7 +305,7 @@ namespace PluginBehaviac.Exporters
         {
             if (pars.Count > 0)
             {
-                file.WriteLine("{0}\t// locals", indent);
+                file.WriteLine("{0}\u0020\u0020\u0020\u0020// locals", indent);
 
                 for (int i = 0; i < pars.Count; ++i)
                 {
@@ -313,7 +313,7 @@ namespace PluginBehaviac.Exporters
                     string type = DataCsExporter.GetGeneratedParType(pars[i].Type);
                     string value = pars[i].DefaultValue.Replace("\"", "\\\"");
 
-                    file.WriteLine("{0}\t{1}.AddLocal(\"{2}\", \"{3}\", \"{4}\", \"{5}\");", indent, nodeName, agentType, type, name, value);
+                    file.WriteLine("{0}\u0020\u0020\u0020\u0020{1}.AddLocal(\"{2}\", \"{3}\", \"{4}\", \"{5}\");", indent, nodeName, agentType, type, name, value);
                 }
             }
         }
@@ -358,11 +358,11 @@ namespace PluginBehaviac.Exporters
                     string isPrecondition = attach.IsPrecondition && !attach.IsTransition ? "true" : "false";
                     string isEffector = attach.IsEffector && !attach.IsTransition ? "true" : "false";
                     string isTransition = attach.IsTransition ? "true" : "false";
-                    file.WriteLine("{0}\t{1}.Attach({2}, {3}, {4}, {5});", indent, parentName, nodeName, isPrecondition, isEffector, isTransition);
+                    file.WriteLine("{0}\u0020\u0020\u0020\u0020{1}.Attach({2}, {3}, {4}, {5});", indent, parentName, nodeName, isPrecondition, isEffector, isTransition);
 
                     if (attach is Behaviac.Design.Attachments.Event)
                     {
-                        file.WriteLine("{0}\t{1}.SetHasEvents({1}.HasEvents() | ({2} is Event));", indent, parentName, nodeName);
+                        file.WriteLine("{0}\u0020\u0020\u0020\u0020{1}.SetHasEvents({1}.HasEvents() | ({2} is Event));", indent, parentName, nodeName);
                     }
 
                     file.WriteLine("{0}}}", indent);
@@ -405,7 +405,7 @@ namespace PluginBehaviac.Exporters
 
             for (int i = 0; i < indentDepth; ++i)
             {
-                indent += '\t';
+                indent += "\u0020\u0020\u0020\u0020";
             }
 
             string nodeName = string.Format("node{0}", node.Id);
@@ -419,7 +419,7 @@ namespace PluginBehaviac.Exporters
 
             ExportPars(file, agentType, nodeName, node, indent);
 
-            ExportAttachment(file, btClassName, agentType, nodeName, node, indent + "\t");
+            ExportAttachment(file, btClassName, agentType, nodeName, node, indent + "\u0020\u0020\u0020\u0020");
 
             bool isAsChild = true;
 
@@ -436,12 +436,12 @@ namespace PluginBehaviac.Exporters
             if (isAsChild)
             {
                 // add the node to its parent
-                file.WriteLine("{0}\t{1}.AddChild({2});", indent, parentName, nodeName);
+                file.WriteLine("{0}\u0020\u0020\u0020\u0020{1}.AddChild({2});", indent, parentName, nodeName);
             }
             else
             {
                 // add the node as its customized children
-                file.WriteLine("{0}\t{1}.SetCustomCondition({2});", indent, parentName, nodeName);
+                file.WriteLine("{0}\u0020\u0020\u0020\u0020{1}.SetCustomCondition({2});", indent, parentName, nodeName);
             }
 
             // export the child nodes
@@ -453,7 +453,7 @@ namespace PluginBehaviac.Exporters
                 }
             }
 
-            file.WriteLine("{0}\t{1}.SetHasEvents({1}.HasEvents() | {2}.HasEvents());", indent, parentName, nodeName);
+            file.WriteLine("{0}\u0020\u0020\u0020\u0020{1}.SetHasEvents({1}.HasEvents() | {2}.HasEvents());", indent, parentName, nodeName);
 
             // close the brackets for a better formatting in the generated code
             file.WriteLine("{0}}}", indent);
@@ -545,7 +545,7 @@ namespace PluginBehaviac.Exporters
 
                 if (!string.IsNullOrEmpty(agent.Namespace))
                 {
-                    indent = "\t";
+                    indent = "\u0020\u0020\u0020\u0020";
 
                     file.WriteLine("namespace {0}", agent.Namespace.Replace("::", "."));
                     file.WriteLine("{");
@@ -589,22 +589,22 @@ namespace PluginBehaviac.Exporters
                             defaultValue = " = " + defaultValue;
                         }
 
-                        //file.WriteLine("{0}\t[behaviac.MemberMetaInfo(\"{1}\", \"{2}\")]", indent, prop.DisplayName, prop.BasicDescription);
+                        //file.WriteLine("{0}\u0020\u0020\u0020\u0020[behaviac.MemberMetaInfo(\"{1}\", \"{2}\")]", indent, prop.DisplayName, prop.BasicDescription);
                         if (prop.IsPublic)
                         {
-                            file.WriteLine("{0}\tpublic {1}{2} {3}{4};", indent, staticStr, propType, prop.BasicName, defaultValue);
+                            file.WriteLine("{0}\u0020\u0020\u0020\u0020public {1}{2} {3}{4};", indent, staticStr, propType, prop.BasicName, defaultValue);
                         }
                         else
                         {
-                            file.WriteLine("{0}\tprivate {1}{2} {3}{4};", indent, staticStr, propType, prop.BasicName, defaultValue);
-                            file.WriteLine("{0}\tpublic {1}void _set_{2}({3} value)", indent, staticStr, prop.BasicName, propType);
-                            file.WriteLine("{0}\t{{", indent);
-                            file.WriteLine("{0}\t\t{1} = value;", indent, prop.BasicName);
-                            file.WriteLine("{0}\t}}", indent);
-                            file.WriteLine("{0}\tpublic {1}{2} _get_{3}()", indent, staticStr, propType, prop.BasicName);
-                            file.WriteLine("{0}\t{{", indent);
-                            file.WriteLine("{0}\t\treturn {1};", indent, prop.BasicName);
-                            file.WriteLine("{0}\t}}", indent);
+                            file.WriteLine("{0}\u0020\u0020\u0020\u0020private {1}{2} {3}{4};", indent, staticStr, propType, prop.BasicName, defaultValue);
+                            file.WriteLine("{0}\u0020\u0020\u0020\u0020public {1}void _set_{2}({3} value)", indent, staticStr, prop.BasicName, propType);
+                            file.WriteLine("{0}\u0020\u0020\u0020\u0020{{", indent);
+                            file.WriteLine("{0}\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020{1} = value;", indent, prop.BasicName);
+                            file.WriteLine("{0}\u0020\u0020\u0020\u0020}}", indent);
+                            file.WriteLine("{0}\u0020\u0020\u0020\u0020public {1}{2} _get_{3}()", indent, staticStr, propType, prop.BasicName);
+                            file.WriteLine("{0}\u0020\u0020\u0020\u0020{{", indent);
+                            file.WriteLine("{0}\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020return {1};", indent, prop.BasicName);
+                            file.WriteLine("{0}\u0020\u0020\u0020\u0020}}", indent);
                         }
 
                         file.WriteLine();
@@ -642,38 +642,38 @@ namespace PluginBehaviac.Exporters
                         string returnType = DataCsExporter.GetGeneratedNativeType(method.ReturnType);
                         string returnValue = DataCsExporter.GetGeneratedDefaultValue(method.ReturnType, returnType);
 
-                        //file.WriteLine("{0}\t[behaviac.MethodMetaInfo(\"{1}\", \"{2}\")]", indent, method.DisplayName, method.BasicDescription);
-                        ExportMethodComment(file, "\t" + indent);
+                        //file.WriteLine("{0}\u0020\u0020\u0020\u0020[behaviac.MethodMetaInfo(\"{1}\", \"{2}\")]", indent, method.DisplayName, method.BasicDescription);
+                        ExportMethodComment(file, "\u0020\u0020\u0020\u0020" + indent);
 
-                        file.WriteLine("{0}\t{1}{2}{3} {4}({5})", indent, publicStr, staticStr, returnType, method.BasicName, allParams);
-                        file.WriteLine("{0}\t{{", indent);
+                        file.WriteLine("{0}\u0020\u0020\u0020\u0020{1}{2}{3} {4}({5})", indent, publicStr, staticStr, returnType, method.BasicName, allParams);
+                        file.WriteLine("{0}\u0020\u0020\u0020\u0020{{", indent);
 
                         if (!preview)
                         {
-                            ExportBeginComment(file, "\t\t" + indent, method.BasicName);
+                            ExportBeginComment(file, "\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020" + indent, method.BasicName);
                         }
 
                         if (returnValue != null)
                         {
                             //file.WriteLine();
-                            file.WriteLine("{0}\t\treturn {1};", indent, returnValue);
+                            file.WriteLine("{0}\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020return {1};", indent, returnValue);
                         }
 
                         if (!preview)
                         {
-                            ExportEndComment(file, "\t\t" + indent);
+                            ExportEndComment(file, "\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020" + indent);
                         }
 
-                        file.WriteLine("{0}\t}}", indent);
+                        file.WriteLine("{0}\u0020\u0020\u0020\u0020}}", indent);
                         file.WriteLine();
                     }
                 }
 
                 if (!preview)
                 {
-                    ExportBeginComment(file, indent + "\t", Behaviac.Design.Exporters.Exporter.class_part);
+                    ExportBeginComment(file, indent + "\u0020\u0020\u0020\u0020", Behaviac.Design.Exporters.Exporter.class_part);
                     file.WriteLine();
-                    ExportEndComment(file, indent + "\t");
+                    ExportEndComment(file, indent + "\u0020\u0020\u0020\u0020");
                     file.WriteLine();
                 }
 
@@ -807,7 +807,7 @@ namespace PluginBehaviac.Exporters
 
                 if (!string.IsNullOrEmpty(enumType.Namespace))
                 {
-                    indent = "\t";
+                    indent = "\u0020\u0020\u0020\u0020";
 
                     enumfile.WriteLine("namespace {0}", enumType.Namespace.Replace("::", "."));
                     enumfile.WriteLine("{");
@@ -821,15 +821,15 @@ namespace PluginBehaviac.Exporters
                 {
                     EnumType.EnumMemberType member = enumType.Members[m];
                     //if (member.DisplayName != member.Name || !string.IsNullOrEmpty(member.Description))
-                    //    enumfile.WriteLine("{0}\t[behaviac.MemberMetaInfo(\"{1}\", \"{2}\")]", indent, member.DisplayName, member.Description);
+                    //    enumfile.WriteLine("{0}\u0020\u0020\u0020\u0020[behaviac.MemberMetaInfo(\"{1}\", \"{2}\")]", indent, member.DisplayName, member.Description);
 
                     if (member.Value >= 0)
                     {
-                        enumfile.WriteLine("{0}\t{1} = {2},", indent, member.Name, member.Value);
+                        enumfile.WriteLine("{0}\u0020\u0020\u0020\u0020{1} = {2},", indent, member.Name, member.Value);
                     }
                     else
                     {
-                        enumfile.WriteLine("{0}\t{1},", indent, member.Name);
+                        enumfile.WriteLine("{0}\u0020\u0020\u0020\u0020{1},", indent, member.Name);
                     }
                 }
 
@@ -885,7 +885,7 @@ namespace PluginBehaviac.Exporters
 
             if (!string.IsNullOrEmpty(structType.Namespace))
             {
-                indent = "\t";
+                indent = "\u0020\u0020\u0020\u0020";
 
                 structfile.WriteLine("namespace {0}", structType.Namespace.Replace("::", "."));
                 structfile.WriteLine("{");
@@ -932,9 +932,9 @@ namespace PluginBehaviac.Exporters
                 if (!member.IsInherited)
                 {
                     //if (member.DisplayName != member.Name || !string.IsNullOrEmpty(member.BasicDescription))
-                    //    structfile.WriteLine("{0}\t[behaviac.MemberMetaInfo(\"{1}\", \"{2}\")]", indent, member.DisplayName, member.BasicDescription);
+                    //    structfile.WriteLine("{0}\u0020\u0020\u0020\u0020[behaviac.MemberMetaInfo(\"{1}\", \"{2}\")]", indent, member.DisplayName, member.BasicDescription);
 
-                    structfile.WriteLine("{0}\tpublic {1} {2};", indent, DataCsExporter.GetGeneratedNativeType(member.NativeType), member.BasicName);
+                    structfile.WriteLine("{0}\u0020\u0020\u0020\u0020public {1} {2};", indent, DataCsExporter.GetGeneratedNativeType(member.NativeType), member.BasicName);
                 }
             }
 
@@ -985,15 +985,15 @@ namespace PluginBehaviac.Exporters
                 file.WriteLine();
 
                 // AgentMeta class
-                file.WriteLine("\tpublic class BehaviorLoaderImplement : BehaviorLoader");
-                file.WriteLine("\t{");
+                file.WriteLine("\u0020\u0020\u0020\u0020public class BehaviorLoaderImplement : BehaviorLoader");
+                file.WriteLine("\u0020\u0020\u0020\u0020{");
 
                 PreExportMeta(file);
                 file.WriteLine();
 
                 // Load method
-                file.WriteLine("\t\tpublic override bool Load()");
-                file.WriteLine("\t\t{");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020public override bool Load()");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020{");
 
                 ExportMeta(file);
 
@@ -1007,7 +1007,7 @@ namespace PluginBehaviac.Exporters
 
                         if (!isStatic)
                         {
-                            file.WriteLine("\t\t\tAgentMeta.Register<{0}>(\"{0}\");", agentType.Name.Replace("::", "."));
+                            file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020AgentMeta.Register<{0}>(\"{0}\");", agentType.Name.Replace("::", "."));
                         }
                     }
                 }
@@ -1016,8 +1016,8 @@ namespace PluginBehaviac.Exporters
                 {
                     string enumFullname = enumType.Fullname.Replace("::", ".");
 
-                    file.WriteLine("\t\t\tAgentMeta.Register<{0}>(\"{0}\");", enumFullname);
-                    file.WriteLine("\t\t\tComparerRegister.RegisterType<{0}, CompareValue_{1}>();", enumFullname, enumFullname.Replace(".", "_"));
+                    file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020AgentMeta.Register<{0}>(\"{0}\");", enumFullname);
+                    file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020ComparerRegister.RegisterType<{0}, CompareValue_{1}>();", enumFullname, enumFullname.Replace(".", "_"));
                 }
 
                 foreach (StructType structType in TypeManager.Instance.Structs)
@@ -1026,8 +1026,8 @@ namespace PluginBehaviac.Exporters
 
                     if (structFullname != "System.Object")
                     {
-                        file.WriteLine("\t\t\tAgentMeta.Register<{0}>(\"{0}\");", structFullname);
-                        file.WriteLine("\t\t\tComparerRegister.RegisterType<{0}, CompareValue_{1}>();", structFullname, structFullname.Replace(".", "_"));
+                        file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020AgentMeta.Register<{0}>(\"{0}\");", structFullname);
+                        file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020ComparerRegister.RegisterType<{0}, CompareValue_{1}>();", structFullname, structFullname.Replace(".", "_"));
                     }
                 }
 
@@ -1044,7 +1044,7 @@ namespace PluginBehaviac.Exporters
 
                             if (!isStatic)
                             {
-                                file.WriteLine("\t\t\tAgent.RegisterInstanceName<{0}>(\"{1}\");", instance.ClassName.Replace("::", "."), instance.Name);
+                                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020Agent.RegisterInstanceName<{0}>(\"{1}\");", instance.ClassName.Replace("::", "."), instance.Name);
                             }
                         }
                     }
@@ -1053,17 +1053,17 @@ namespace PluginBehaviac.Exporters
                 if (Workspace.Current.UseIntValue)
                 {
                     file.WriteLine();
-                    file.WriteLine("\t\t\tbehaviac.Workspace.Instance.UseIntValue = true;");
+                    file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020behaviac.Workspace.Instance.UseIntValue = true;");
                 }
 
-                file.WriteLine("\t\t\treturn true;");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020return true;");
 
-                file.WriteLine("\t\t}");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020}");
                 file.WriteLine();
 
                 // UnLoad method
-                file.WriteLine("\t\tpublic override bool UnLoad()");
-                file.WriteLine("\t\t{");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020public override bool UnLoad()");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020{");
 
                 foreach (AgentType agentType in Plugin.AgentTypes)
                 {
@@ -1073,7 +1073,7 @@ namespace PluginBehaviac.Exporters
 
                         if (!isStatic)
                         {
-                            file.WriteLine("\t\t\tAgentMeta.UnRegister<{0}>(\"{0}\");", agentType.Name.Replace("::", "."));
+                            file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020AgentMeta.UnRegister<{0}>(\"{0}\");", agentType.Name.Replace("::", "."));
                         }
                     }
                 }
@@ -1082,7 +1082,7 @@ namespace PluginBehaviac.Exporters
                 {
                     string enumFullname = enumType.Fullname.Replace("::", ".");
 
-                    file.WriteLine("\t\t\tAgentMeta.UnRegister<{0}>(\"{0}\");", enumFullname);
+                    file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020AgentMeta.UnRegister<{0}>(\"{0}\");", enumFullname);
                 }
 
                 foreach (StructType structType in TypeManager.Instance.Structs)
@@ -1091,7 +1091,7 @@ namespace PluginBehaviac.Exporters
 
                     if (structFullname != "System.Object")
                     {
-                        file.WriteLine("\t\t\tAgentMeta.UnRegister<{0}>(\"{0}\");", structFullname);
+                        file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020AgentMeta.UnRegister<{0}>(\"{0}\");", structFullname);
                     }
                 }
 
@@ -1108,15 +1108,15 @@ namespace PluginBehaviac.Exporters
 
                             if (!isStatic)
                             {
-                                file.WriteLine("\t\t\tAgent.UnRegisterInstanceName<{0}>(\"{1}\");", instance.ClassName.Replace("::", "."), instance.Name);
+                                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020Agent.UnRegisterInstanceName<{0}>(\"{1}\");", instance.ClassName.Replace("::", "."), instance.Name);
                             }
                         }
                     }
                 }
 
-                file.WriteLine("\t\t\treturn true;");
-                file.WriteLine("\t\t}");
-                file.WriteLine("\t}");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020return true;");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020}");
+                file.WriteLine("\u0020\u0020\u0020\u0020}");
                 file.WriteLine("}");
 
                 string filename = Path.Combine(agentFolder, "AgentProperties.cs");
@@ -1131,33 +1131,33 @@ namespace PluginBehaviac.Exporters
             {
                 string enumFullname = enumType.Fullname.Replace("::", ".");
 
-                file.WriteLine("\tpublic class CompareValue_{0} : ICompareValue<{1}>", enumFullname.Replace(".", "_"), enumFullname);
-                file.WriteLine("\t{");
-                file.WriteLine("\t\tpublic override bool Equal({0} lhs, {0} rhs)", enumFullname);
-                file.WriteLine("\t\t{");
-                file.WriteLine("\t\t\treturn lhs == rhs;");
-                file.WriteLine("\t\t}");
-                file.WriteLine("\t\tpublic override bool NotEqual({0} lhs, {0} rhs)", enumFullname);
-                file.WriteLine("\t\t{");
-                file.WriteLine("\t\t\treturn lhs != rhs;");
-                file.WriteLine("\t\t}");
-                file.WriteLine("\t\tpublic override bool Greater({0} lhs, {0} rhs)", enumFullname);
-                file.WriteLine("\t\t{");
-                file.WriteLine("\t\t\treturn lhs > rhs;");
-                file.WriteLine("\t\t}");
-                file.WriteLine("\t\tpublic override bool GreaterEqual({0} lhs, {0} rhs)", enumFullname);
-                file.WriteLine("\t\t{");
-                file.WriteLine("\t\t\treturn lhs >= rhs;");
-                file.WriteLine("\t\t}");
-                file.WriteLine("\t\tpublic override bool Less({0} lhs, {0} rhs)", enumFullname);
-                file.WriteLine("\t\t{");
-                file.WriteLine("\t\t\treturn lhs < rhs;");
-                file.WriteLine("\t\t}");
-                file.WriteLine("\t\tpublic override bool LessEqual({0} lhs, {0} rhs)", enumFullname);
-                file.WriteLine("\t\t{");
-                file.WriteLine("\t\t\treturn lhs <= rhs;");
-                file.WriteLine("\t\t}");
-                file.WriteLine("\t}");
+                file.WriteLine("\u0020\u0020\u0020\u0020public class CompareValue_{0} : ICompareValue<{1}>", enumFullname.Replace(".", "_"), enumFullname);
+                file.WriteLine("\u0020\u0020\u0020\u0020{");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020public override bool Equal({0} lhs, {0} rhs)", enumFullname);
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020{");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020return lhs == rhs;");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020}");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020public override bool NotEqual({0} lhs, {0} rhs)", enumFullname);
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020{");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020return lhs != rhs;");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020}");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020public override bool Greater({0} lhs, {0} rhs)", enumFullname);
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020{");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020return lhs > rhs;");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020}");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020public override bool GreaterEqual({0} lhs, {0} rhs)", enumFullname);
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020{");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020return lhs >= rhs;");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020}");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020public override bool Less({0} lhs, {0} rhs)", enumFullname);
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020{");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020return lhs < rhs;");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020}");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020public override bool LessEqual({0} lhs, {0} rhs)", enumFullname);
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020{");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020return lhs <= rhs;");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020}");
+                file.WriteLine("\u0020\u0020\u0020\u0020}");
                 file.WriteLine();
             }
 
@@ -1170,10 +1170,10 @@ namespace PluginBehaviac.Exporters
                     continue;
                 }
 
-                file.WriteLine("\tpublic class CompareValue_{0} : ICompareValue<{1}>", structFullname.Replace(".", "_"), structFullname);
-                file.WriteLine("\t{");
-                file.WriteLine("\t\tpublic override bool Equal({0} lhs, {0} rhs)", structFullname);
-                file.WriteLine("\t\t{");
+                file.WriteLine("\u0020\u0020\u0020\u0020public class CompareValue_{0} : ICompareValue<{1}>", structFullname.Replace(".", "_"), structFullname);
+                file.WriteLine("\u0020\u0020\u0020\u0020{");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020public override bool Equal({0} lhs, {0} rhs)", structFullname);
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020{");
 
                 string compareStr = "";
 
@@ -1202,19 +1202,19 @@ namespace PluginBehaviac.Exporters
 
                 if (string.IsNullOrEmpty(compareStr))
                 {
-                    file.WriteLine("\t\t\treturn lhs == rhs;");
+                    file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020return lhs == rhs;");
                 }
                 else
                 {
-                    file.WriteLine("\t\t\treturn {0};", compareStr);
+                    file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020return {0};", compareStr);
                 }
 
-                file.WriteLine("\t\t}");
-                file.WriteLine("\t\tpublic override bool NotEqual({0} lhs, {0} rhs)", structFullname);
-                file.WriteLine("\t\t{");
-                file.WriteLine("\t\t\treturn !Equal(lhs, rhs);");
-                file.WriteLine("\t\t}");
-                file.WriteLine("\t}");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020}");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020public override bool NotEqual({0} lhs, {0} rhs)", structFullname);
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020{");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020return !Equal(lhs, rhs);");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020}");
+                file.WriteLine("\u0020\u0020\u0020\u0020}");
                 file.WriteLine();
             }
         }
@@ -1252,24 +1252,24 @@ namespace PluginBehaviac.Exporters
                 structTypeName = structTypeName.Replace(".", "_");
 
                 // class
-                file.WriteLine("\t\tclass CInstanceConst_{0} : CInstanceConst<{1}>", structTypeName, structType.Fullname.Replace("::", "."));
-                file.WriteLine("\t\t{");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020class CInstanceConst_{0} : CInstanceConst<{1}>", structTypeName, structType.Fullname.Replace("::", "."));
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020{");
 
                 foreach (PropertyDef prop in structType.Properties)
                 {
                     if (!prop.IsReadonly)
                     {
-                        file.WriteLine("\t\t\tIInstanceMember _{0};", prop.BasicName);
+                        file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020IInstanceMember _{0};", prop.BasicName);
                     }
                 }
 
                 file.WriteLine();
 
                 // Constructors
-                file.WriteLine("\t\t\tpublic CInstanceConst_{0}(string typeName, string valueStr) : base(typeName, valueStr)", structTypeName);
-                file.WriteLine("\t\t\t{");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020public CInstanceConst_{0}(string typeName, string valueStr) : base(typeName, valueStr)", structTypeName);
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020{");
 
-                file.WriteLine("\t\t\t\tList<string> paramStrs = behaviac.StringUtils.SplitTokensForStruct(valueStr);");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020List<string> paramStrs = behaviac.StringUtils.SplitTokensForStruct(valueStr);");
                 
                 int validPropCount = 0;
                 foreach (PropertyDef prop in structType.Properties)
@@ -1280,7 +1280,7 @@ namespace PluginBehaviac.Exporters
                     }
                 }
 
-                file.WriteLine("\t\t\t\tDebug.Check(paramStrs != null && paramStrs.Count == {0});", validPropCount);
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020Debug.Check(paramStrs != null && paramStrs.Count == {0});", validPropCount);
                 file.WriteLine();
 
                 validPropCount = 0;
@@ -1290,18 +1290,18 @@ namespace PluginBehaviac.Exporters
                     {
                         string propType = DataCsExporter.GetGeneratedNativeType(prop.NativeType);
 
-                        file.WriteLine("\t\t\t\t_{0} = (CInstanceMember<{1}>)AgentMeta.ParseProperty<{1}>(paramStrs[{2}]);", prop.BasicName, propType, validPropCount);
+                        file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020_{0} = (CInstanceMember<{1}>)AgentMeta.ParseProperty<{1}>(paramStrs[{2}]);", prop.BasicName, propType, validPropCount);
 
                         validPropCount++;
                     }
                 }
 
-                file.WriteLine("\t\t\t}");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020}");
                 file.WriteLine();
 
                 // Run()
-                file.WriteLine("\t\t\tpublic override void Run(Agent self)");
-                file.WriteLine("\t\t\t{");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020public override void Run(Agent self)");
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020{");
 
                 if (structType.Properties.Count > 0)
                 {
@@ -1309,7 +1309,7 @@ namespace PluginBehaviac.Exporters
                     {
                         if (!prop.IsReadonly)
                         {
-                            file.WriteLine("\t\t\t\tDebug.Check(_{0} != null);", prop.BasicName);
+                            file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020Debug.Check(_{0} != null);", prop.BasicName);
                         }
                     }
 
@@ -1324,18 +1324,18 @@ namespace PluginBehaviac.Exporters
 
                         if (Plugin.IsRefType(prop.Type))
                         {
-                            file.WriteLine("\t\t\t\t_value.{0} = ({1})_{0}.GetValueObject(self);", prop.BasicName, propType);
+                            file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020_value.{0} = ({1})_{0}.GetValueObject(self);", prop.BasicName, propType);
                         }
                         else
                         {
-                            file.WriteLine("\t\t\t\t_value.{0} = ((CInstanceMember<{1}>)_{0}).GetValue(self);", prop.BasicName, propType);
+                            file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020_value.{0} = ((CInstanceMember<{1}>)_{0}).GetValue(self);", prop.BasicName, propType);
                         }
                     }
                 }
 
-                file.WriteLine("\t\t\t}"); // Run()
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020}"); // Run()
 
-                file.WriteLine("\t\t};"); // end of class
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020};"); // end of class
                 file.WriteLine();
             }
 
@@ -1380,19 +1380,19 @@ namespace PluginBehaviac.Exporters
                             string baseClass = (methodReturnType == "void") ? "CAgentMethodVoidBase" : string.Format("CAgentMethodBase<{0}>", methodReturnType);
 
                             // class
-                            file.WriteLine("\t\tprivate class CMethod_{0} : {1}", methodFullname, baseClass);
-                            file.WriteLine("\t\t{");
+                            file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020private class CMethod_{0} : {1}", methodFullname, baseClass);
+                            file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020{");
 
                             foreach (MethodDef.Param param in method.Params)
                             {
                                 if (Plugin.IsRefType(param.Type))
                                 {
-                                    file.WriteLine("\t\t\tIInstanceMember _{0};", param.Name);
+                                    file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020IInstanceMember _{0};", param.Name);
                                 }
                                 else
                                 {
                                     string paramType = DataCsExporter.GetGeneratedNativeType(param.NativeType);
-                                    file.WriteLine("\t\t\tCInstanceMember<{0}> _{1};", paramType, param.Name);
+                                    file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020CInstanceMember<{0}> _{1};", paramType, param.Name);
                                 }
                             }
 
@@ -1402,30 +1402,30 @@ namespace PluginBehaviac.Exporters
                             }
 
                             // Constructors
-                            file.WriteLine("\t\t\tpublic CMethod_{0}()", methodFullname);
-                            file.WriteLine("\t\t\t{");
-                            file.WriteLine("\t\t\t}");
+                            file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020public CMethod_{0}()", methodFullname);
+                            file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020{");
+                            file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020}");
                             file.WriteLine();
 
-                            file.WriteLine("\t\t\tpublic CMethod_{0}(CMethod_{0} rhs) : base(rhs)", methodFullname);
-                            file.WriteLine("\t\t\t{");
-                            file.WriteLine("\t\t\t}");
+                            file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020public CMethod_{0}(CMethod_{0} rhs) : base(rhs)", methodFullname);
+                            file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020{");
+                            file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020}");
                             file.WriteLine();
 
                             // Clone()
-                            file.WriteLine("\t\t\tpublic override IMethod Clone()");
-                            file.WriteLine("\t\t\t{");
-                            file.WriteLine("\t\t\t\treturn new CMethod_{0}(this);", methodFullname);
-                            file.WriteLine("\t\t\t}"); // Clone()
+                            file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020public override IMethod Clone()");
+                            file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020{");
+                            file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020return new CMethod_{0}(this);", methodFullname);
+                            file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020}"); // Clone()
                             file.WriteLine();
 
                             // Load()
-                            file.WriteLine("\t\t\tpublic override void Load(string instance, string[] paramStrs)");
-                            file.WriteLine("\t\t\t{");
+                            file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020public override void Load(string instance, string[] paramStrs)");
+                            file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020{");
 
-                            file.WriteLine("\t\t\t\tDebug.Check(paramStrs.Length == {0});", method.Params.Count);
+                            file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020Debug.Check(paramStrs.Length == {0});", method.Params.Count);
                             file.WriteLine();
-                            file.WriteLine("\t\t\t\t_instance = instance;");
+                            file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020_instance = instance;");
 
                             for (int i = 0; i < method.Params.Count; ++i)
                             {
@@ -1434,40 +1434,40 @@ namespace PluginBehaviac.Exporters
 
                                 if (IsStructType(param))
                                 {
-                                    file.WriteLine("\t\t\t\tif (paramStrs[{0}].StartsWith(\"{{\"))", i);
-                                    file.WriteLine("\t\t\t\t{");
-                                    file.WriteLine("\t\t\t\t\t_{0} = new CInstanceConst_{1}(\"{2}\", paramStrs[{3}]);", param.Name, paramType.Replace(".", "_"), paramType, i);
-                                    file.WriteLine("\t\t\t\t}");
-                                    file.WriteLine("\t\t\t\telse");
-                                    file.WriteLine("\t\t\t\t{");
-                                    file.WriteLine("\t\t\t\t\t_{0} = (CInstanceMember<{1}>)AgentMeta.ParseProperty<{1}>(paramStrs[{2}]);", param.Name, paramType, i);
-                                    file.WriteLine("\t\t\t\t}");
+                                    file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020if (paramStrs[{0}].StartsWith(\"{{\"))", i);
+                                    file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020{");
+                                    file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020_{0} = new CInstanceConst_{1}(\"{2}\", paramStrs[{3}]);", param.Name, paramType.Replace(".", "_"), paramType, i);
+                                    file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020}");
+                                    file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020else");
+                                    file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020{");
+                                    file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020_{0} = (CInstanceMember<{1}>)AgentMeta.ParseProperty<{1}>(paramStrs[{2}]);", param.Name, paramType, i);
+                                    file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020}");
                                 }
                                 else
                                 {
                                     if (Plugin.IsRefType(param.Type))
                                     {
-                                        file.WriteLine("\t\t\t\t_{0} = AgentMeta.ParseProperty<{1}>(paramStrs[{2}]);", param.Name, paramType, i);
+                                        file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020_{0} = AgentMeta.ParseProperty<{1}>(paramStrs[{2}]);", param.Name, paramType, i);
                                     }
                                     else
                                     {
-                                        file.WriteLine("\t\t\t\t_{0} = (CInstanceMember<{1}>)AgentMeta.ParseProperty<{1}>(paramStrs[{2}]);", param.Name, paramType, i);
+                                        file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020_{0} = (CInstanceMember<{1}>)AgentMeta.ParseProperty<{1}>(paramStrs[{2}]);", param.Name, paramType, i);
                                     }
                                 }
                             }
 
-                            file.WriteLine("\t\t\t}"); // Load()
+                            file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020}"); // Load()
                             file.WriteLine();
 
                             // Run()
-                            file.WriteLine("\t\t\tpublic override void Run(Agent self)");
-                            file.WriteLine("\t\t\t{");
+                            file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020public override void Run(Agent self)");
+                            file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020{");
 
                             if (method.Params.Count > 0)
                             {
                                 foreach (MethodDef.Param param in method.Params)
                                 {
-                                    file.WriteLine("\t\t\t\tDebug.Check(_{0} != null);", param.Name);
+                                    file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020Debug.Check(_{0} != null);", param.Name);
                                 }
 
                                 file.WriteLine();
@@ -1479,7 +1479,7 @@ namespace PluginBehaviac.Exporters
                             {
                                 if (IsStructType(param))
                                 {
-                                    file.WriteLine("\t\t\t\t_{0}.Run(self);", param.Name);
+                                    file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020_{0}.Run(self);", param.Name);
                                 }
 
                                 if (!string.IsNullOrEmpty(paramValues))
@@ -1497,7 +1497,7 @@ namespace PluginBehaviac.Exporters
 
                                 if (param.IsRef || param.IsOut)
                                 {
-                                    file.WriteLine("\t\t\t\t{0} {1} = {2};", paramType, param.Name, paramName);
+                                    file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020{0} {1} = {2};", paramType, param.Name, paramName);
 
                                     if (method.IsPublic)
                                     {
@@ -1514,7 +1514,7 @@ namespace PluginBehaviac.Exporters
 
                             if (!method.IsStatic)
                             {
-                                file.WriteLine("\t\t\t\tAgent agent = Utils.GetParentAgent(self, _instance);");
+                                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020Agent agent = Utils.GetParentAgent(self, _instance);");
                                 file.WriteLine();
                             }
 
@@ -1524,24 +1524,24 @@ namespace PluginBehaviac.Exporters
                             {
                                 if (method.IsPublic)
                                 {
-                                    file.WriteLine("\t\t\t\t{0}.{1}({2});", instanceName, method.BasicName, paramValues);
+                                    file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020{0}.{1}({2});", instanceName, method.BasicName, paramValues);
                                 }
                                 else
                                 {
-                                    file.WriteLine("\t\t\t\tobject[] paramArray = new object[] {{ {0} }};", paramValues);
-                                    file.WriteLine("\t\t\t\tAgentMetaVisitor.ExecuteMethod({0}, \"{1}\", paramArray);", instanceName, method.BasicName);
+                                    file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020object[] paramArray = new object[] {{ {0} }};", paramValues);
+                                    file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020AgentMetaVisitor.ExecuteMethod({0}, \"{1}\", paramArray);", instanceName, method.BasicName);
                                 }
                             }
                             else
                             {
                                 if (method.IsPublic)
                                 {
-                                    file.WriteLine("\t\t\t\t_returnValue.value = {0}.{1}({2});", instanceName, method.BasicName, paramValues);
+                                    file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020_returnValue.value = {0}.{1}({2});", instanceName, method.BasicName, paramValues);
                                 }
                                 else
                                 {
-                                    file.WriteLine("\t\t\t\tobject[] paramArray = new object[] {{ {0} }};", paramValues);
-                                    file.WriteLine("\t\t\t\t_returnValue.value = ({0})AgentMetaVisitor.ExecuteMethod({1}, \"{2}\", paramArray);", methodReturnType, instanceName, method.BasicName);
+                                    file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020object[] paramArray = new object[] {{ {0} }};", paramValues);
+                                    file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020_returnValue.value = ({0})AgentMetaVisitor.ExecuteMethod({1}, \"{2}\", paramArray);", methodReturnType, instanceName, method.BasicName);
                                 }
                             }
 
@@ -1553,17 +1553,17 @@ namespace PluginBehaviac.Exporters
                                 {
                                     if (method.IsPublic)
                                     {
-                                        file.WriteLine("\t\t\t\t_{0}.SetValue(self, {0});", param.Name);
+                                        file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020_{0}.SetValue(self, {0});", param.Name);
                                     }
                                     else
                                     {
                                         string paramType = DataCsExporter.GetGeneratedNativeType(param.NativeType);
-                                        file.WriteLine("\t\t\t\t_{0}.SetValue(self, ({1})paramArray[{2}]);", param.Name, paramType, i);
+                                        file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020_{0}.SetValue(self, ({1})paramArray[{2}]);", param.Name, paramType, i);
                                     }
                                 }
                             }
 
-                            file.WriteLine("\t\t\t}"); // Run()
+                            file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020}"); // Run()
 
                             if (method.Params.Count == 1 && methodReturnType == "behaviac.EBTStatus")
                             {
@@ -1571,11 +1571,11 @@ namespace PluginBehaviac.Exporters
                                 string paramType = DataCsExporter.GetGeneratedNativeType(method.Params[0].NativeType);
 
                                 file.WriteLine();
-                                file.WriteLine("\t\t\tpublic override IValue GetIValue(Agent self, IInstanceMember firstParam)");
-                                file.WriteLine("\t\t\t{");
-                                file.WriteLine("\t\t\t\tAgent agent = Utils.GetParentAgent(self, _instance);");
+                                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020public override IValue GetIValue(Agent self, IInstanceMember firstParam)");
+                                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020{");
+                                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020Agent agent = Utils.GetParentAgent(self, _instance);");
                                 file.WriteLine();
-                                file.WriteLine("\t\t\t\t{0} result = ((CInstanceMember<{0}>)firstParam).GetValue(self);", paramType);
+                                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020{0} result = ((CInstanceMember<{0}>)firstParam).GetValue(self);", paramType);
 
                                 MethodDef.Param param = method.Params[0];
 
@@ -1588,32 +1588,32 @@ namespace PluginBehaviac.Exporters
                                         refStr = param.IsRef ? "ref " : "out ";
                                     }
 
-                                    file.WriteLine("\t\t\t\t_returnValue.value = {0}.{1}({2}result);", instanceName, method.BasicName, refStr);
+                                    file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020_returnValue.value = {0}.{1}({2}result);", instanceName, method.BasicName, refStr);
                                 }
                                 else
                                 {
-                                    file.WriteLine("\t\t\t\tobject[] paramArray = new object[] { result };");
-                                    file.WriteLine("\t\t\t\t_returnValue.value = ({0})AgentMetaVisitor.ExecuteMethod({1}, \"{2}\", paramArray);", methodReturnType, instanceName, method.BasicName);
+                                    file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020object[] paramArray = new object[] { result };");
+                                    file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020_returnValue.value = ({0})AgentMetaVisitor.ExecuteMethod({1}, \"{2}\", paramArray);", methodReturnType, instanceName, method.BasicName);
                                 }
 
                                 if (param.IsRef || param.IsOut)
                                 {
                                     if (method.IsPublic)
                                     {
-                                        file.WriteLine("\t\t\t\tfirstParam.SetValue(self, result);");
+                                        file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020firstParam.SetValue(self, result);");
                                     }
                                     else
                                     {
                                         string paramNativeType = DataCsExporter.GetGeneratedNativeType(param.NativeType);
-                                        file.WriteLine("\t\t\t\tfirstParam.SetValue(self, ({0})paramArray[0]);", paramNativeType);
+                                        file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020firstParam.SetValue(self, ({0})paramArray[0]);", paramNativeType);
                                     }
                                 }
 
-                                file.WriteLine("\t\t\t\treturn _returnValue;");
-                                file.WriteLine("\t\t\t}");
+                                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020return _returnValue;");
+                                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020}");
                             }
 
-                            file.WriteLine("\t\t}"); // class
+                            file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020}"); // class
                             file.WriteLine();
                         }
                     }
@@ -1623,18 +1623,18 @@ namespace PluginBehaviac.Exporters
 
         private void ExportMeta(StringWriter file)
         {
-            file.WriteLine("\t\t\tAgentMeta.TotalSignature = {0};", CRC32.CalcCRC(Plugin.Signature));
+            file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020AgentMeta.TotalSignature = {0};", CRC32.CalcCRC(Plugin.Signature));
             file.WriteLine();
-            file.WriteLine("\t\t\tAgentMeta meta;");
+            file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020AgentMeta meta;");
 
             foreach (AgentType agent in Plugin.AgentTypes)
             {
                 string agentTypeName = agent.Name.Replace("::", ".");
                 string signature = agent.GetSignature(true);
 
-                file.WriteLine("\r\n\t\t\t// {0}", agentTypeName);
-                file.WriteLine("\t\t\tmeta = new AgentMeta({0});", CRC32.CalcCRC(signature));
-                file.WriteLine("\t\t\tAgentMeta._AgentMetas_[{0}] = meta;", CRC32.CalcCRC(agentTypeName));
+                file.WriteLine("\r\n\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020// {0}", agentTypeName);
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020meta = new AgentMeta({0});", CRC32.CalcCRC(signature));
+                file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020AgentMeta._AgentMetas_[{0}] = meta;", CRC32.CalcCRC(agentTypeName));
 
                 IList<PropertyDef> properties = agent.GetProperties(true);
 
@@ -1745,7 +1745,7 @@ namespace PluginBehaviac.Exporters
                             }
                         }
 
-                        file.WriteLine("\t\t\tmeta.{0}({1}, {2});", registerName, CRC32.CalcCRC(prop.BasicName), bindingProperty);
+                        file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020meta.{0}({1}, {2});", registerName, CRC32.CalcCRC(prop.BasicName), bindingProperty);
                     }
                 }
 
@@ -1801,7 +1801,7 @@ namespace PluginBehaviac.Exporters
 
                         agentMethod = string.Format("new CAgentMethodVoid{0}(delegate(Agent self{1}) {{ }}) /* {2} */", paramTypes, paramTypeValues, method.BasicName);
 
-                        file.WriteLine("\t\t\tmeta.RegisterMethod({0}, {1});", CRC32.CalcCRC(method.BasicName), agentMethod);
+                        file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020meta.RegisterMethod({0}, {1});", CRC32.CalcCRC(method.BasicName), agentMethod);
                     }
                     else
                     {
@@ -1882,7 +1882,7 @@ namespace PluginBehaviac.Exporters
                             }
                         }
 
-                        file.WriteLine("\t\t\tmeta.RegisterMethod({0}, {1});", CRC32.CalcCRC(method.BasicName), agentMethod);
+                        file.WriteLine("\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020meta.RegisterMethod({0}, {1});", CRC32.CalcCRC(method.BasicName), agentMethod);
                     }
                 }
             }
